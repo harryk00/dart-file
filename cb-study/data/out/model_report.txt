@@ -1,0 +1,38 @@
+타깃=L4 (L4_excess) / 사용 피처 39개
+['coupon', 'ytm', 'is_zero_zero', 'cv_premium', 'refix_floor_ratio', 'refix_below_70', 'days_to_cv_open', 'cv_window_days', 'tenor_days', 'use_working_w', 'use_debt_heavy', 'use_ma_heavy', 'dilution_pct_disclosed', 'dilution_now', 'dilution_max', 'cum_dilution_24m', 'amt_to_mcap', 'mcap_at_event', 'prior_cb_24m', 'is_first_cb', 'multi_tranche', 'n_corrections', 'cb_to_cash', 'impairment', 'is_impaired', 'cfo_negative', 'fin_lag_days', 'ret_pre20', 'post_refix_rule', 'has_call', 'call_owner_side', 'call_limit_pct', 'has_put', 'put_start_num', 'call_and_zero', 'n_union', 'union_heavy', 'owner_subscriber', 'has_lockup']
+
+train=2911  valid=430  test=321
+best_iteration = 6
+
+[train] base=0.335  PR-AUC=0.526  ROC-AUC=0.692
+[valid] base=0.302  PR-AUC=0.360  ROC-AUC=0.527
+
+valid 컷오프 스캔 (통과군 평균 L2_excess / 정밀도 / 건수):
+  (정밀도 0.55 달성 컷오프 없음 → 기본 0.55)
+채택 컷오프 = 0.55
+
+==================================================================
+홀드아웃 백테스트 (test: 모델 미접촉 기간, 1회만 평가)
+==================================================================
+[test] base=0.305  PR-AUC=0.336  ROC-AUC=0.483
+
+전체 test CB 321건: 평균 초과수익 +0.084 (중앙값 -0.124)
+시그널 0건 — 컷오프가 test에서 아무것도 통과 못 함. 실전 보류.
+
+SHAP 중요도 상위 15 (valid) — 실전 체크리스트 후보:
+mcap_at_event             0.0168
+dilution_pct_disclosed    0.0111
+cv_premium                0.0065
+impairment                0.0064
+cb_to_cash                0.0061
+cv_window_days            0.0060
+ret_pre20                 0.0052
+amt_to_mcap               0.0040
+dilution_now              0.0037
+ytm                       0.0036
+days_to_cv_open           0.0033
+call_limit_pct            0.0028
+dilution_max              0.0028
+fin_lag_days              0.0022
+n_union                   0.0017
+플롯: data/out/shap_summary.png
